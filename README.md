@@ -13,6 +13,11 @@ I have built with the following versions.
     Rust: 1.74.0
     Docker: 24.0.7
 
+I have currently setup and tested mrGateway running in a docker container.
+
+    docker build -t mrgateway .
+    docker run --name mrGateway -p 8080:8080 mrgateway
+
 ## Future Features
 _______________
 
