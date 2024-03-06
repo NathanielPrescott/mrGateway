@@ -2,6 +2,7 @@
 
 Cargo.lock
 
+.idea
+
 mr_cache.rs
 
-.idea

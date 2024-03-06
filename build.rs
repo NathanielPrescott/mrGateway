@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build_client(true)
         .build_server(false)
         .file_descriptor_set_path(out_dir.join("mr_cache.bin"))
-        .out_dir("./src/generated")
+        .out_dir("./src/external_integration/mrCache")
         .compile(&[out_dir.join("mr_cache.proto")], &[out_dir])
         .expect("Building proto failed");
 
