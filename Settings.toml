@@ -1,0 +1,10 @@
+[network]
+domain = "0.0.0.0"
+port = 8080
+
+[build]
+cache_generated_location = "src/generated"
+cache_generated = "mr_cache.rs"
+cache_proto_url = "https://raw.githubusercontent.com/NathanielPrescott/mrCache/main/proto/mr_cache.proto"
+cache_proto = "mr_cache.proto"
+

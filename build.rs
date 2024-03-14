@@ -23,10 +23,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 // Download externally needed proto file
 fn download_proto(url: &str, path: &PathBuf) -> Result<(), Box<dyn std::error::Error>> {
-    let response = reqwest::blocking::get(url)?.bytes()?;
-    let mut file = File::create(path.join("mr_cache.proto"))?;
-
-    file.write_all(&response)?;
-
+    let file_path = path.join("mr_cache.proto");
+    
+    match reqwest::blocking::get(url) {
+        Ok(response) => {
+            let bytes = response.bytes()?;
+            let mut file = File::create(&file_path)?;
+            file.write_all(&bytes)?;
+        }
+        Err(e) => {
+            if !file_path.exists() {
+                return Err(e.into());
+            }
+        }
+    }
+    
     Ok(())
 }
