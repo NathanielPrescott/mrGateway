@@ -1,29 +1,12 @@
 mod external_calls;
 
+use crate::network::external_calls::{is_alive, doors_of_durin};
+
 use std::collections::HashMap;
-use crate::network::external_calls::{is_alive, pass_params};
 use actix_cors::Cors;
 use actix_web::{App, HttpServer};
 use config::{Config, File};
 use serde::Deserialize;
-
-pub async fn external_connection() -> std::io::Result<()> {
-    let settings = get_settings();
-
-
-    println!("Starting server...");
-    println!("Listening on: http://{}:{}", settings.domain, settings.port);
-
-    HttpServer::new(move || {
-        App::new()
-            .wrap(Cors::permissive())
-            .service(is_alive)
-            .service(pass_params)
-    })
-    .bind((settings.domain, settings.port))?
-    .run()
-    .await
-}
 
 #[derive(Debug, Deserialize)]
 struct Settings {
@@ -31,9 +14,26 @@ struct Settings {
     port: u16,
 }
 
+pub async fn external_connection() -> std::io::Result<()> {
+    let settings = get_settings();
+    
+    println!("Starting server...");
+    println!("Listening on: http://{}:{}", settings.domain, settings.port);
+
+    HttpServer::new(move || {
+        App::new()
+            .wrap(Cors::permissive())
+            .service(is_alive)
+            .service(doors_of_durin)
+    })
+    .bind((settings.domain, settings.port))?
+    .run()
+    .await
+}
+
 fn get_settings() -> Settings {
     let settings = Config::builder()
-        .add_source(File::with_name("Settings"))
+        .add_source(File::with_name("Development"))
         .build()
         .unwrap()
         .try_deserialize::<HashMap<String, HashMap<String, String>>>()

@@ -9,7 +9,6 @@ use std::path::PathBuf;
 #[derive(Debug, Deserialize)]
 struct Settings {
     cache_generated_location: String,
-    cache_generated_file: String,
     cache_generated_bin: String,
     cache_proto_url: String,
     cache_proto_file: String,
@@ -56,7 +55,7 @@ fn download_proto(settings: &Settings, path: &PathBuf) -> Result<(), Box<dyn std
 
 fn get_settings() -> Settings {
     let settings = Config::builder()
-        .add_source(config::File::with_name("Settings"))
+        .add_source(config::File::with_name("Development"))
         .build()
         .unwrap()
         .try_deserialize::<HashMap<String, HashMap<String, String>>>()
@@ -65,14 +64,12 @@ fn get_settings() -> Settings {
     let build = settings.get("build").unwrap();
 
     let cache_generated_location: String = build.get("cache_generated_location").unwrap().clone();
-    let cache_generated_file: String = build.get("cache_generated_file").unwrap().clone();
     let cache_generated_bin: String = build.get("cache_generated_bin").unwrap().clone();
     let cache_proto_url: String = build.get("cache_proto_url").unwrap().clone();
     let cache_proto_file: String = build.get("cache_proto_file").unwrap().clone();
 
     Settings {
         cache_generated_location,
-        cache_generated_file,
         cache_generated_bin,
         cache_proto_url,
         cache_proto_file,
