@@ -3,8 +3,9 @@ domain = "0.0.0.0"
 port = 8080
 
 [build]
-cache_generated_location = "src/generated"
-cache_generated = "mr_cache.rs"
+cache_generated_location = "./src/generated"
+cache_generated_file = "mr_cache.rs"
+cache_generated_bin = "mr_cache.bin"
 cache_proto_url = "https://raw.githubusercontent.com/NathanielPrescott/mrCache/main/proto/mr_cache.proto"
-cache_proto = "mr_cache.proto"
+cache_proto_file = "mr_cache.proto"
 

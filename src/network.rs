@@ -8,11 +8,11 @@ use config::{Config, File};
 use serde::Deserialize;
 
 pub async fn external_connection() -> std::io::Result<()> {
-    let Settings {domain, port} = get_settings();
+    let settings = get_settings();
 
 
     println!("Starting server...");
-    println!("Listening on: http://{}:{}", domain, port);
+    println!("Listening on: http://{}:{}", settings.domain, settings.port);
 
     HttpServer::new(move || {
         App::new()
@@ -20,7 +20,7 @@ pub async fn external_connection() -> std::io::Result<()> {
             .service(is_alive)
             .service(pass_params)
     })
-    .bind((domain, port))?
+    .bind((settings.domain, settings.port))?
     .run()
     .await
 }
